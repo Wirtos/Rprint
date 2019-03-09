@@ -4,48 +4,61 @@ class Rtdout():
         self.stdout = None
 
     def getstdout(self):
+        # get current stdout for Rprint
         return self.stdout
 
 
 class Rprint():
     rtdout = Rtdout()
-    def __init__(self, *args, **kwargs):
+
+    def __init__(self):
         self.__storage__ = []
 
     def flush(self):
+        # dummy method to support stream flushing
         self.__storage__.clear()
 
     def ret(self):
         return self.__storage__.copy()
 
     def write(self, *objects):
+        # dummy method to support file-like object writing
         self.__storage__.append(*objects)
 
-    def __call__(self, *objects, sep=' ', end='\n', flush=False, file=rtdout):
+    def __call__(self, *objects, sep=' ', end='\n', file=rtdout, flush=False):
+        """
+        :param objects: Any type, that can be turned into str or repr
+        :param sep: separator for few objects. rprint('one', 'two', sep='-', end='') ~ '-'.join(('one', 'two'))
+        :param end: end of result string
+        :param file: output, raises AttributeError if stream file can't be writed
+        :param flush: flushes stream, raises AttributeError if stream file can't be flushed
+        :return:
+        """
         if isinstance(file, Rtdout):
             writefile = file.getstdout()
             file = self if not writefile else writefile
+
         try:
             file.write
         except AttributeError:
-            raise AttributeError("'{}' object has no attribute 'write'".format(type(file))) from None
+            raise AttributeError("'{type}' object has no attribute 'write'".format(type=type(file))) from None
 
         if flush:
             try:
                 file.flush
             except AttributeError:
-                raise AttributeError("'{}' object has no attribute 'flush'".format(type(file))) from None
+                raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
             file.flush()
+
         if objects == ():
             file.write(end)
             return
 
-        temp = []
-
-        for obj, has_more in self.__lookahead__(objects):
-            temp.append(str(obj))
-            if has_more:
-                temp.append(sep)
+        # check if sep exists to prevent unnecessary __lookahead__ calls
+        if sep:
+            temp = [str(obj) + sep if has_more else str(obj) for obj, has_more in self.__lookahead__(objects)]
+        else:
+            temp = [str(obj) for obj in objects]
         temp.append(end)
         file.write(''.join(temp))
 
@@ -56,10 +69,12 @@ class Rprint():
         self.__storage__.clear()
 
     def __iter__(self):
+        # method to iterate through storage when iterating Rprint object itself
         return (i for i in self.__storage__)
 
     @staticmethod
     def __lookahead__(iterable):
+        # looks for objects remained after last to emulate ''.join() behaviour
         it = iter(iterable)
         last = next(it)
         for val in it:
@@ -68,16 +83,18 @@ class Rprint():
         yield last, False
 
     def __repr__(self):
-        representation = ', '.join((repr(el) for el in self.__storage__)) + ', ' if self.__storage__ else ''
         return "<{gname}.{cname}({vals}sep='', end='')>".format(
             gname=__name__,
             cname=self.__class__.__name__,
-            vals=representation
+            vals=', '.join((repr(el) for el in self.__storage__)) + ', ' if self.__storage__ else ''
         )
 
     def __setattr__(self, attr, value):
+        # prevent from setting new attributes
         if attr not in ['__storage__', 'stdout']:
-            raise AttributeError("type object '{}' has no attribute '{}'".format(type(self), attr))
+            raise AttributeError("type object '{type}' has no attribute '{attr}'".format(
+                type=type(self), attr=attr)
+            )
         super(Rprint, self).__setattr__(attr, value)
 
     def __str__(self):
