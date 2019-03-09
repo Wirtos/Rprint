@@ -28,7 +28,7 @@ from rprintlib import rprint #predefined rprint object
 
 Why rprint?
   - It's easy to use
-  - 8 times faster then print with stdout output and 10.7 without it
+  - 8 times faster than print with stdout output and 10.7 without it
   - It's opensource and pure-pythonized
 
 ### Installation
@@ -104,7 +104,7 @@ You can also use rprint with context manager:
 with rprint:
     rprint(12)
     print(rprint.ret())
-    >>> [12\n]
+    >>> ['12\n']
 # flush() on exit. Storage is empty now
 print(rprint.ret())
 >>> []
