@@ -34,8 +34,11 @@ class Rprint():
         :param flush: flushes stream, raises AttributeError if stream file can't be flushed
         :return:
         """
-        if isinstance(file, Rtdout):
-            writefile = file.getstdout()
+        sep = ' ' if sep is None else sep
+        end = '\n' if end is None else end
+
+        if isinstance(file, Rtdout) or file is None:
+            writefile = self.rtdout.getstdout()
             file = self if not writefile else writefile
 
         try:
@@ -49,7 +52,6 @@ class Rprint():
             except AttributeError:
                 raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
             file.flush()
-
         if objects == ():
             file.write(end)
             return
