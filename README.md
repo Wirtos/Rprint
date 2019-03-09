@@ -104,7 +104,7 @@ You can also use rprint with context manager:
 with rprint:
     rprint(12)
     print(rprint.ret())
-    >>> [12\n]
+    >>> ['12\n']
 # flush() on exit. Storage is empty now
 print(rprint.ret())
 >>> []
