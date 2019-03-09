@@ -1,4 +1,4 @@
-# Rprint is a faster pure python rprint implementation.
+# Rprint is a faster pure python print implementation.
   - fast io storage support
   - just for fun
   - like print, but better!
@@ -75,6 +75,7 @@ rprint('rtdout - default class for storing output source')
 
 Yep. Here's the argument list for each of them:
 Rprint(self, *objects, sep=' ', end='\n', flush=False, file=rtdout)
+
 Rtdout(self)
 
 and usable methods for Rprint:
