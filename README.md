@@ -29,8 +29,9 @@ from rprintlib import rprint #predefined rprint object
 Why rprint?
   - It's easy to use
   - 8 times faster than print with stdout output and 10.7 without it
-  - It's opensource and pure-pythonized
-
+  - It's open-source and pure-pythonized
+  - Why not?
+  
 ### Installation
 
 requires python 3 and up
@@ -44,7 +45,6 @@ or
 ```sh
 $ pip install git+https://github.com/Wirtos/Rprint
 ```
-
 ### FAQ
 > Can i print to console or file with rprint?
 
@@ -60,7 +60,7 @@ import sys
 rprint(*('sure', 'why', 'not'), sep=" - ", file=sys.stdout)
 >>> sure - why - not
 ```
-> I need to type file= everytime i want to use stdout or other writeable file?
+> I need to type file= everytime i want to use stdout or other writable file?
 
 Well, no. You can do something like:
 ```python
@@ -74,14 +74,16 @@ rprint('rtdout - default class for storing output source')
 > So, there are two base classes?
 
 Yep. Here's the argument list for each of them:
-Rprint(self, *objects, sep=' ', end='\n', flush=False, file=rtdout)
 
-Rtdout(self)
+>Rprint(self, *objects, sep=' ', end='\n', flush=False, file=rtdout)
 
-and usable methods for Rprint:
-flush(self) flushes cached output if possible (can raise AttributeError)
-ret(self) returns list of cached calls
-write(*objs) don't use that one directly. It was created for using Rprint object as alternative file storage:
+>Rtdout(self)
+
+and usable methods and attributes for Rprint:
+
+- `.flush(self)`  flushes cached output if possible (can raise AttributeError)
+- `.ret(self)` returns list of cached calls **(only if rprint.rtdout.stdout is None or False)**
+- `.write(self, *objs)` don't use that one directly. It was created for using Rprint object as alternative file storage:
 ```python
 print("something", file=rprint)
 print(rprint.ret())
@@ -89,8 +91,7 @@ print(rprint.ret())
 ```
 or
 ```python
-import sys
-#redefine stdout to rprint storage 
+import sys 
 #redefine stdout to rprint storage 
 sys.stdout = rprint 
 print(1)
@@ -100,6 +101,9 @@ sys.stdout = sys.__stdout__ #redefine stdout to default console out
 print(rprint.ret())
 >>> ['1\n', '2\n', '3\n']
 ```
+- `.rtdout.stdout` Rtdout instance for current rprint object, that stores default out file value. Default to None
+- `.rtdout.getstdout()` Get current stdout for rprint object
+
 You can also use rprint with context manager:
 ```python
 with rprint:

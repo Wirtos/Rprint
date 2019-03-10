@@ -34,8 +34,7 @@ class Rprint():
         :param flush: flushes stream, raises AttributeError if stream file can't be flushed
         :return:
         """
-        sep = ' ' if sep is None else sep
-        end = '\n' if end is None else end
+        sep, end = ' ' if sep is None else sep, '\n' if end is None else end
 
         if isinstance(file, Rtdout) or file is None:
             writefile = self.rtdout.getstdout()
