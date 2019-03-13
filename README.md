@@ -41,7 +41,7 @@ requires python 3 and up
 Packages required: None, you don't need any installed
 
 ```sh
-$ pip install rprintlib
+$ pip install rprintlib --upgarde
 ```
 or
 ```sh
