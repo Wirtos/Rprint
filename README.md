@@ -41,7 +41,7 @@ requires python 3 and up
 Packages required: None, you don't need any installed
 
 ```sh
-$ pip install rprintlib --upgarde
+$ pip install rprintlib --upgrade
 ```
 or
 ```sh
@@ -111,6 +111,7 @@ sys.stdout = sys.__stdout__ #redefine stdout to default console out
 print(rprint.ret())
 >>> ['1\n', '2\n', '3\n']
 ```
+
 - `.rtdout.stdout` Rtdout instance for current rprint object, that stores default out file value. Default to None
 - `.rtdout.getstdout()` Get current stdout for rprint object
 
