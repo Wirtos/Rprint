@@ -24,6 +24,8 @@ from rprintlib import rprint #predefined rprint object
 >>> '12 - 33 - None - String\n1.23\n'
 >>> repr(rprint) # ->repr 
 >>> "<rprintlib.rpmain.Rprint('12 - 33 - None - String\\n', '1.23\\n', sep='', end='')>"
+>>> iter(rprint)
+>>> <list_iterator object at 0x0000013AD992D320>
 ```
 
 Why rprint?
@@ -52,13 +54,14 @@ yes:
 ```python
 import sys
 rprint('something', file=sys.stdout)
+>>> 'something'
 ```
 > It is possible to use starred expressions?
 
 ```python
 import sys
 rprint(*('sure', 'why', 'not'), sep=" - ", file=sys.stdout)
->>> sure - why - not
+>>> 'sure - why - not'
 ```
 > I need to type file= everytime i want to use stdout or other writable file?
 
@@ -69,7 +72,7 @@ rprint.rtdout.stdout = sys.stdout
 rprint(1)
 >>> 1
 rprint('rtdout - default class for storing output source')
->>> rtdout - default class for storing output
+>>> 'rtdout - default class for storing output'
 ```
 > So, there are two base classes?
 

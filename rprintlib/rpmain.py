@@ -71,7 +71,7 @@ class Rprint():
 
     def __iter__(self):
         # method to iterate through storage when iterating Rprint object itself
-        return (i for i in self.__storage__)
+        return iter(self.__storage__)
 
     @staticmethod
     def lookahead(iterable):
