@@ -74,11 +74,18 @@ rprint(1)
 rprint('rtdout - default class for storing output source')
 >>> 'rtdout - default class for storing output'
 ```
+Or even better solution:
+```python
+from rprintlib import sprint # predefined stdout Rprint object
+sprint(2)
+>>> 2
+```
+
 > So, there are two base classes?
 
 Yep. Here's the argument list for each of them:
 
->Rprint(self, *objects, sep=' ', end='\n', flush=False, file=rtdout)
+>Rprint(self, *objects, sep=' ', end='\n', flush=False, file=None)
 
 >Rtdout(self)
 
@@ -95,7 +102,7 @@ print(rprint.ret())
 or
 ```python
 import sys 
-#redefine stdout to rprint storage 
+# redefine stdout to rprint storage 
 sys.stdout = rprint 
 print(1)
 print(2)

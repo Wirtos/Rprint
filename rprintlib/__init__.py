@@ -1,5 +1,8 @@
 from .rpmain import Rtdout, Rprint
-rprint = Rprint()
+import sys
+rprint = Rprint() # predefined self-storage Rprint
+sprint = Rprint() # predefined stdout Rprint
+sprint.rtdout.stdout = sys.stdout
 
-__all__ = ['Rprint', 'Rtdout', 'rprint']
-__version__ = "0.5"
+__all__ = ['Rprint', 'Rtdout', 'rprint', 'sprint']
+__version__ = "0.6"

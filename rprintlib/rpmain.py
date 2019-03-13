@@ -9,10 +9,9 @@ class Rtdout():
 
 
 class Rprint():
-    rtdout = Rtdout()
-
     def __init__(self):
         self.__storage__ = []
+        self.rtdout = Rtdout()
 
     def flush(self):
         # dummy method to support stream flushing
@@ -25,7 +24,7 @@ class Rprint():
         # dummy method to support file-like object writing
         self.__storage__.append(*objects)
 
-    def __call__(self, *objects, sep=' ', end='\n', file=rtdout, flush=False):
+    def __call__(self, *objects, sep=' ', end='\n', file=None, flush=False):
         """
         :param objects: Any type, that can be turned into str or repr
         :param sep: separator for few objects. rprint('one', 'two', sep='-', end='') ~ '-'.join(('one', 'two'))
@@ -51,6 +50,7 @@ class Rprint():
             except AttributeError:
                 raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
             file.flush()
+
         if objects == ():
             file.write(end)
             return
@@ -92,7 +92,7 @@ class Rprint():
 
     def __setattr__(self, attr, value):
         # prevent from setting new attributes
-        if attr not in ['__storage__', 'stdout']:
+        if attr not in ['__storage__', 'rtdout']:
             raise AttributeError("type object '{type}' has no attribute '{attr}'".format(
                 type=type(self), attr=attr)
             )

@@ -2,11 +2,11 @@ import setuptools
 
 setuptools.setup(
     name="rprintlib",
-    version="0.5",
+    version="0.6",
     author="Wirtos_new",
     author_email="Wirtos.new@gmail.com",
     description="Pure python custom print implementation",
-    url="https://github.com/Wirtos/Rprint",
+    url="https://wirtos.github.io/Rprint/",
     packages=setuptools.find_packages(),
     project_urls={
         "Source Code": "https://github.com/Wirtos/Rprint",
