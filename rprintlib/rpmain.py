@@ -55,9 +55,9 @@ class Rprint():
             file.write(end)
             return
 
-        # check if sep exists to prevent unnecessary __lookahead__ calls
+        # check if sep exists to prevent unnecessary lookahead calls
         if sep:
-            temp = [str(obj) + sep if has_more else str(obj) for obj, has_more in self.__lookahead__(objects)]
+            temp = [str(obj) + sep if has_more else str(obj) for obj, has_more in self.lookahead(objects)]
         else:
             temp = [str(obj) for obj in objects]
         temp.append(end)
@@ -74,7 +74,7 @@ class Rprint():
         return (i for i in self.__storage__)
 
     @staticmethod
-    def __lookahead__(iterable):
+    def lookahead(iterable):
         # looks for objects remained after last to emulate ''.join() behaviour
         it = iter(iterable)
         last = next(it)
