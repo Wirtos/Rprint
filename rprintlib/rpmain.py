@@ -20,9 +20,9 @@ class Rprint():
     def ret(self):
         return self.__storage__.copy()
 
-    def write(self, *objects):
+    def write(self, objects):
         # dummy method to support file-like object writing
-        self.__storage__.append(*objects)
+        self.__storage__.append(objects)
 
     def __call__(self, *objects, sep=' ', end='\n', file=None, flush=False):
         """
@@ -75,7 +75,7 @@ class Rprint():
 
     @staticmethod
     def lookahead(iterable):
-        # looks for objects remained after last to emulate ''.join() behaviour
+        # looks for objects remained after iterated one to emulate ''.join() behaviour
         it = iter(iterable)
         last = next(it)
         for val in it:
