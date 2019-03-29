@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="rprintlib",
-    version="0.7",
+    version="1.0",
     author="Wirtos_new",
     author_email="Wirtos.new@gmail.com",
     description="Pure python custom print implementation",

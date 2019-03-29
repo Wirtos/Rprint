@@ -1,5 +1,4 @@
 class Rtdout():
-
     def __init__(self):
         self.stdout = None
 
@@ -10,19 +9,22 @@ class Rtdout():
 
 class Rprint():
     def __init__(self):
-        self.__storage__ = []
+        # write needed attributes and then lock setattr
+        super(Rprint, self).__setattr__("_lock", 0)
+        self._storage = []
         self.rtdout = Rtdout()
+        super(Rprint, self).__delattr__('_lock')
 
     def flush(self):
         # dummy method to support stream flushing
-        self.__storage__.clear()
+        self._storage.clear()
 
     def ret(self):
-        return self.__storage__.copy()
+        return self._storage.copy()
 
     def write(self, objects):
         # dummy method to support file-like object writing
-        self.__storage__.append(objects)
+        self._storage.append(objects)
 
     def __call__(self, *objects, sep=' ', end='\n', file=None, flush=False):
         """
@@ -67,11 +69,11 @@ class Rprint():
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.__storage__.clear()
+        self._storage.clear()
 
     def __iter__(self):
         # method to iterate through storage when iterating Rprint object itself
-        return iter(self.__storage__)
+        return iter(self._storage)
 
     @staticmethod
     def lookahead(iterable):
@@ -87,17 +89,17 @@ class Rprint():
         return "<{gname}.{cname}({vals}sep='', end='')>".format(
             gname=__name__,
             cname=self.__class__.__name__,
-            vals=', '.join((repr(el) for el in self.__storage__)) + ', ' if self.__storage__ else ''
+            vals=', '.join((repr(el) for el in self._storage)) + ', ' if self._storage else ''
         )
 
     def __setattr__(self, attr, value):
         # prevent from setting new attributes
-        if attr not in ['__storage__', 'rtdout']:
-            raise AttributeError("type object '{type}' has no attribute '{attr}'".format(
+        if attr not in ('_storage', 'rtdout',) if hasattr(self, '_lock') else ('_storage',):
+            raise AttributeError("type object '{type}' has no writeable attribute '{attr}'".format(
                 type=type(self), attr=attr)
             )
         super(Rprint, self).__setattr__(attr, value)
 
     def __str__(self):
-        res = ''.join(self.__storage__)
+        res = ''.join(self._storage)
         return res
