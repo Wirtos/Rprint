@@ -103,3 +103,74 @@ class Rprint():
     def __str__(self):
         res = ''.join(self._storage)
         return res
+
+
+class ARprint(Rprint):
+    async def __call__(self, *objects, sep=' ', end='\n', file=None, flush=False):
+        import asyncio
+        sep, end = ' ' if sep is None else sep, '\n' if end is None else end
+
+        if isinstance(file, Rtdout) or file is None:
+            writefile = self.rtdout.getstdout()
+            file = self if not writefile else writefile
+
+        try:
+            file.write
+        except AttributeError:
+            raise AttributeError("'{type}' object has no attribute 'write'".format(type=type(file))) from None
+
+        if flush:
+            try:
+                file.flush
+            except AttributeError:
+                raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
+            file.flush()
+
+        if objects == ():
+            file.write(end)
+            return
+
+        # check if sep exists to prevent unnecessary lookahead calls
+        if sep:
+            for obj, has_more in self.lookahead(objects):
+                file.write(str(obj) + sep) if has_more else file.write(str(obj))
+                await asyncio.sleep(0)
+        else:
+            for obj in objects:
+                file.write(str(obj))
+                await asyncio.sleep(0)
+        file.write(end)
+
+
+class CRprint(Rprint):
+    def __call__(self, *objects, sep=' ', end='\n', file=None, flush=False):
+        sep, end = ' ' if sep is None else sep, '\n' if end is None else end
+
+        if isinstance(file, Rtdout) or file is None:
+            writefile = self.rtdout.getstdout()
+            file = self if not writefile else writefile
+
+        try:
+            file.write
+        except AttributeError:
+            raise AttributeError("'{type}' object has no attribute 'write'".format(type=type(file))) from None
+
+        if flush:
+            try:
+                file.flush
+            except AttributeError:
+                raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
+            file.flush()
+
+        if objects == ():
+            file.write(end)
+            return
+
+        # check if sep exists to prevent unnecessary lookahead calls
+        if sep:
+            for obj, has_more in self.lookahead(objects):
+                file.write(str(obj) + sep) if has_more else file.write(str(obj))
+        else:
+            for obj in objects:
+                file.write(str(obj))
+        file.write(end)
