@@ -133,7 +133,7 @@ class ARprint(Rprint):
         # check if sep exists to prevent unnecessary lookahead calls
         if sep:
             for obj, has_more in self.lookahead(objects):
-                file.write(str(obj) + sep) if has_more else file.write(str(obj))
+                (file.write(str(obj)), file.write(sep)) if has_more else file.write(str(obj))
                 await asyncio.sleep(0)
         else:
             for obj in objects:
@@ -169,7 +169,7 @@ class CRprint(Rprint):
         # check if sep exists to prevent unnecessary lookahead calls
         if sep:
             for obj, has_more in self.lookahead(objects):
-                file.write(str(obj) + sep) if has_more else file.write(str(obj))
+                (file.write(str(obj)), file.write(sep)) if has_more else file.write(str(obj))
         else:
             for obj in objects:
                 file.write(str(obj))
