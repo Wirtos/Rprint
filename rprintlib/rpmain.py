@@ -48,10 +48,10 @@ class Rprint():
 
         if flush:
             try:
-                file.flush
+                file.flush()
             except AttributeError:
                 raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
-            file.flush()
+
 
         if objects == ():
             file.write(end)
@@ -121,10 +121,9 @@ class ARprint(Rprint):
 
         if flush:
             try:
-                file.flush
+                file.flush()
             except AttributeError:
                 raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
-            file.flush()
 
         if objects == ():
             file.write(end)
@@ -157,10 +156,9 @@ class CRprint(Rprint):
 
         if flush:
             try:
-                file.flush
+                file.flush()
             except AttributeError:
                 raise AttributeError("'{type}' object has no attribute 'flush'".format(type=type(file))) from None
-            file.flush()
 
         if objects == ():
             file.write(end)
@@ -174,3 +172,4 @@ class CRprint(Rprint):
             for obj in objects:
                 file.write(str(obj))
         file.write(end)
+
